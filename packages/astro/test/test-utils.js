@@ -91,7 +91,6 @@ function merge(a, b) {
 }
 
 const cliURL = new URL('../astro.js', import.meta.url);
-
 /** Start Dev server via CLI */
 export function devCLI(root, additionalArgs = []) {
   const args = [cliURL.pathname, 'dev', '--project-root', root.pathname].concat(additionalArgs);

@@ -95,7 +95,6 @@ async function resolveImportedModules(viteServer: ViteDevServer, file: string) {
 
   let importedModules: Record<string, any> = {};
   const moduleNodes = Array.from(modulesByFile);
-
   // Loop over the importedModules and grab the exports from each one.
   // We'll pass these to the shared $$result so renderers can match
   // components to their exported identifier and URL

@@ -43,7 +43,6 @@ async function _render(child: any) {
 export class AstroComponent {
   private htmlParts: string[];
   private expressions: TemplateStringsArray;
-
   constructor(htmlParts: string[], expressions: TemplateStringsArray) {
     this.htmlParts = htmlParts;
     this.expressions = expressions;
