@@ -1,10 +1,12 @@
 import type { Plugin } from 'vite';
 import type { AstroConfig, Renderer } from '../../@types/astro.js';
+import type { TransformResult } from '@astrojs/compiler';
 import type { LogOptions } from '../../logger';
 
+import { transform } from '@astrojs/compiler';
 import esbuild from 'esbuild';
 import fs from 'fs';
-import { transform } from '@astrojs/compiler';
+import { decode } from 'sourcemap-codec';
 import { AstroDevServer } from '../../dev/index.js';
 
 interface AstroPluginOptions {
@@ -21,17 +23,32 @@ export default function astro({ devServer }: AstroPluginOptions): Plugin {
     async load(id) {
       if (id.endsWith('.astro') || id.endsWith('.md')) {
         let source = await fs.promises.readFile(id, 'utf8');
+        let tsResult: TransformResult | undefined;
 
-        // 1. Transform from `.astro` to valid `.ts`
-        // use `sourcemap: "inline"` so that the sourcemap is included in the "code" result that we pass to esbuild.
-        const tsResult = await transform(source, { sourcefile: id, sourcemap: 'inline' });
-        // 2. Compile `.ts` to `.js`
-        const { code, map } = await esbuild.transform(tsResult.code, { loader: 'ts', sourcemap: 'inline', sourcefile: id });
+        try {
+          // 1. Transform from `.astro` to valid `.ts`
+          // use `sourcemap: "inline"` so that the sourcemap is included in the "code" result that we pass to esbuild.
+          tsResult = await transform(source, { sourcefile: id, sourcemap: 'inline' });
 
-        return {
-          code,
-          map,
-        };
+          // 2. Compile `.ts` to `.js`
+          const { code, map } = await esbuild.transform(tsResult.code, { loader: 'ts', sourcemap: 'inline', sourcefile: id });
+
+          return {
+            code,
+            map,
+          };
+        } catch (err: any) {
+          // if esbuild threw the error, find original code source to display
+          if (err.errors) {
+            const sourcemapb64 = (tsResult?.code.match(/^\/\/# sourceMappingURL=data:application\/json;charset=utf-8;base64,(.*)/m) || [])[1];
+            if (!sourcemapb64) throw err;
+            const json = JSON.parse(new Buffer(sourcemapb64, 'base64').toString());
+            const mappings = decode(json.mappings);
+            const focusMapping = mappings[err.errors[0].location.line + 1];
+            err.sourceLoc = { file: id, line: (focusMapping[0][2] || 0) + 1, column: (focusMapping[0][3] || 0) + 1 };
+          }
+          throw err;
+        }
       }
 
       // UNCOMMENT WHEN MARKDOWN SUPPORT LANDS
