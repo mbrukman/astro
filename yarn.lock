@@ -106,10 +106,10 @@
     "@algolia/logger-common" "4.10.5"
     "@algolia/requester-common" "4.10.5"
 
-"@astrojs/compiler@^0.1.0-canary.36":
-  version "0.1.0-canary.36"
-  resolved "https://registry.yarnpkg.com/@astrojs/compiler/-/compiler-0.1.0-canary.36.tgz#097b364e28093cca883e73797db9e8d1407e4dab"
-  integrity sha512-T4pTA+GJQoMzfJYb9SQnQEQjqUZo1LgcLNFNkziZijAANnbCF6GBGg5d1IWCyHuMaCKvPUrAWBi0olLzzuracw==
+"@astrojs/compiler@^0.1.0-canary.37":
+  version "0.1.0-canary.37"
+  resolved "https://registry.yarnpkg.com/@astrojs/compiler/-/compiler-0.1.0-canary.37.tgz#12a601c6cd1abd5644ad658b290e6cb0fc3fabcf"
+  integrity sha512-6E1KsO8jk3TfswWe5ulYSWNF26NIQM9QPO/ixxFG2rIgA9Q2GUq2KahdxexDroz8JYqgjjOtjNgpIEG6zqm82A==
   dependencies:
     typescript "^4.3.5"
 
