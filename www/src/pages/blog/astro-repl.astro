@@ -1,0 +1,83 @@
+---
+import { Markdown } from 'astro/components';
+import BaseHead from '../../components/BaseHead.astro';
+import BlogHeader from '../../components/BlogHeader.astro';
+import BlogPost from '../../components/BlogPost.astro';
+
+let title = 'Introducing the Astro REPL';
+let description = 'The power of Astro, inside your browser!';
+let publishDate = 'Thursday, Sep 16 2021';
+let permalink = 'https://astro.build/blog/astro-repl/astro-repl.png';
+let lang = 'en';
+---
+
+<html lang={ lang ?? 'en' }>
+  <head>
+    <BaseHead title={title} description={description} permalink={permalink} />
+    <link rel="stylesheet" href={Astro.resolve('../../scss/blog.css')} />
+  </head>
+
+  <body>
+    <BlogHeader />
+    <BlogPost title={title} author="drew" heroImage="/assets/blog/astro-repl/astro-repl-hero.jpg" publishDate={publishDate}>
+      <Markdown>
+        If you’ve been following our Discord group or GitHub issues board, you’ve probably
+        heard the Astro team tease a “new compiler” for the better part of a month and a
+        half. Among many things, it promised to:
+
+        - Fix a lot of `.astro` syntax issues
+        - Be rewritten in Go / WASM to be **Blazing Fast**™
+        - Work in more environments (like Deno! or on the web!)
+
+        The Astro community started hearing us talk about how awesome this update was, and
+        it didn’t take long for them to expect “fixed in the new compiler” to be our response
+        to everything.
+
+        <figure>
+          <img src="/assets/blog/astro-repl/compiler.jpg" width="1200" height="1046" />
+          <figcaption>Parody of <a href="https://xkcd.com/303/">XKCD’s “compiling” comic</a> posted by Jonathan Neal in the Astro Discord</figcaption>
+        </figure>
+
+        That’s why today, we’re excited to announce you can experience the legendary new compiler for
+        yourself before we cut a new release on npm! The new compiler lives in our brand new Astro REPL:
+        [astro.build/play](https://astro.build.play) 🎉.
+
+        <figure>
+          <a href="https://astro.build/play" target="_blank"><img src="/assets/blog/astro-repl/astro-repl.png" width="958" height="566" /></a>
+        </figure>
+
+        In the REPL, you can test out `.astro` code on the left, and see it preview on the right.
+        You can also see the JS output, which may not be useful if you’re building a site but it
+        may come in handy if you’re a contributor to Astro or working on your own tool that uses
+        Astro at a deeper level.
+
+        This is an early alpha release of our new compiler, but even still it gives a preview of
+        what’s to come in the next major release of Astro:
+
+        - Frontmatter-powered script values & CSS variables (docs coming soon)!
+        - Parses HTML more closely to how browsers do (mistakes are allowed!)
+        - Fixes the “fragment issue” where expressions, slots, and components had to always have one child
+        - It’s fast. _Really_ fast.
+
+        The Astro REPL is just a scratchpad right now, but it can be use to play around with ideas,
+        demonstrate a concept, or just play around with Astro before installing everything.
+
+        Try the following code snippets today!
+
+        **Frontmatter CSS Vars**
+
+        ```astro
+        ---
+        let color = 'lawngreen';
+        ---
+        <style define:vars={{ }}>
+          body {
+            color: ${color};
+          }
+        </style>
+        <h1>I’m green!</h1>
+        ```
+      </Markdown>
+    </BlogPost>
+  </body>
+</html>
