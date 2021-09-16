@@ -7,6 +7,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { z } from 'zod';
 import { AstroUserConfig } from './@types/config';
+import { renderMarkdownWithFrontmatter } from '../../remark/dist';
 
 export const AstroConfigSchema = z.object({
   projectRoot: z
@@ -41,6 +42,11 @@ export const AstroConfigSchema = z.object({
       gfm: z.boolean().optional(),
       remarkPlugins: z.array(z.any()).optional(),
       rehypePlugins: z.array(z.any()).optional(),
+      render: z.any()
+        .optional()
+        .default(
+          ['@astrojs/markdown-remark', {}]
+        )
     })
     .optional()
     .default({}),

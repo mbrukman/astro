@@ -1,11 +1,8 @@
-import type { AstroMarkdownOptions } from '@astrojs/markdown-support';
 import type babel from '@babel/core';
 import type vite from 'vite';
 import type { z } from 'zod';
 import type { AstroConfigSchema } from '../config';
 import type { AstroComponentFactory } from '../internal';
-
-export { AstroMarkdownOptions };
 
 export interface AstroComponentMetadata {
   displayName: string;
@@ -59,7 +56,9 @@ export interface AstroUserConfig {
    */
   renderers?: string[];
   /** Options for rendering markdown content */
-  markdownOptions?: Partial<AstroMarkdownOptions>;
+  markdownOptions?: {
+    render?: [string, Record<string, any>];
+  };
   /** Options specific to `astro build` */
   buildOptions?: {
     /** Your public domain, e.g.: https://my-site.dev/. Used to generate sitemaps and canonical URLs. */

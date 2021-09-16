@@ -1,4 +1,3 @@
-import type { AstroMarkdownOptions } from '@astrojs/markdown-support';
 import type { AstroConfigSchema } from '../config';
 import type { z } from 'zod';
 
@@ -46,7 +45,9 @@ export interface AstroUserConfig {
    */
   renderers?: string[];
   /** Options for rendering markdown content */
-  markdownOptions?: Partial<AstroMarkdownOptions>;
+  markdownOptions?: {
+    render?: [string, Record<string, any>];
+  };
   /** Options specific to `astro build` */
   buildOptions?: {
     /** Your public domain, e.g.: https://my-site.dev/. Used to generate sitemaps and canonical URLs. */
